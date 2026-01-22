@@ -3,137 +3,378 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我的导航页</title>
+    <title>全能导航页</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: "Microsoft YaHei", sans-serif;
+            font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
         }
         body {
-            background-color: #f5f5f5;
-            padding: 20px;
+            background: linear-gradient(135deg, #e8f4f8 0%, #f0f8fb 100%);
+            min-height: 100vh;
+            padding: 20px 15px;
         }
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            background: #fff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
         }
-        h1 {
+        /* 标题样式 */
+        .page-title {
             text-align: center;
-            color: #333;
-            margin-bottom: 30px;
+            color: #2d3748;
+            margin-bottom: 25px;
+            font-size: 26px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            position: relative;
+            padding-bottom: 10px;
         }
+        .page-title::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, #4285f4, #34a853);
+            border-radius: 3px;
+        }
+        /* 搜索框样式 */
         .search-box {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
+            position: relative;
         }
         #search-input {
-            width: 60%;
-            height: 40px;
-            padding: 0 15px;
-            border: 1px solid #ddd;
-            border-radius: 20px 0 0 20px;
+            width: 65%;
+            height: 44px;
+            padding: 0 20px;
+            border: 1px solid #e2e8f0;
+            border-radius: 22px;
             outline: none;
+            font-size: 15px;
+            transition: all 0.3s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        #search-input:focus {
+            border-color: #4285f4;
+            box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.1);
         }
         #search-btn {
-            height: 40px;
-            width: 80px;
-            background-color: #4285f4;
+            height: 44px;
+            width: 90px;
+            background: linear-gradient(90deg, #4285f4, #536dfe);
             color: white;
             border: none;
-            border-radius: 0 20px 20px 0;
+            border-radius: 22px;
             cursor: pointer;
+            font-size: 15px;
+            margin-left: 8px;
+            transition: all 0.3s;
+            box-shadow: 0 2px 6px rgba(66, 133, 244, 0.2);
         }
-        .nav-group {
-            margin-bottom: 30px;
+        #search-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(66, 133, 244, 0.3);
+        }
+        /* 导航分类样式 */
+        .nav-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 10px;
+        }
+        .nav-card {
+            background: #f8fafc;
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid #f1f5f9;
+            transition: all 0.3s;
+        }
+        .nav-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+            border-color: #e8f0fe;
         }
         .nav-title {
-            font-size: 18px;
-            color: #4285f4;
+            font-size: 17px;
+            color: #2d3748;
             margin-bottom: 15px;
-            padding-bottom: 5px;
-            border-bottom: 2px solid #eee;
+            display: flex;
+            align-items: center;
+            font-weight: 600;
         }
+        .nav-title i {
+            margin-right: 8px;
+            color: #4285f4;
+            font-size: 18px;
+        }
+        /* 导航列表样式 */
         .nav-list {
             display: flex;
             flex-wrap: wrap;
-            gap: 15px;
+            gap: 8px;
         }
         .nav-item {
-            width: 100px;
-            height: 80px;
+            width: calc(50% - 4px);
+            height: 38px;
+            line-height: 38px;
             text-align: center;
-            line-height: 80px;
-            background-color: #f8f9fa;
+            background: #fff;
             border-radius: 6px;
-            transition: all 0.3s;
+            transition: all 0.2s;
+            border: 1px solid #f1f5f9;
         }
         .nav-item a {
             text-decoration: none;
-            color: #333;
+            color: #4a5568;
             display: block;
             width: 100%;
             height: 100%;
+            font-size: 14px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
         .nav-item:hover {
-            background-color: #e8f0fe;
-            transform: translateY(-2px);
+            background: #e8f0fe;
+            border-color: #4285f4;
         }
+        .nav-item:hover a {
+            color: #4285f4;
+            font-weight: 500;
+        }
+        /* 底部信息 */
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #718096;
+            font-size: 13px;
+            padding-top: 15px;
+            border-top: 1px solid #f1f5f9;
+        }
+        /* 响应式适配 */
         @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            .page-title {
+                font-size: 22px;
+            }
             #search-input {
-                width: 80%;
+                width: 75%;
+            }
+            .nav-container {
+                grid-template-columns: 1fr;
             }
             .nav-item {
-                width: 80px;
-                height: 70px;
-                line-height: 70px;
+                width: calc(50% - 4px);
+                font-size: 13px;
+            }
+        }
+        @media (max-width: 480px) {
+            #search-input {
+                width: 65%;
+            }
+            #search-btn {
+                width: 70px;
+                font-size: 14px;
+            }
+            .nav-item {
+                width: 100%;
             }
         }
     </style>
+    <!-- 引入图标库 -->
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <div class="container">
-        <h1>我的导航页</h1>
+        <h1 class="page-title">全能导航页</h1>
         
         <!-- 搜索框 -->
         <div class="search-box">
-            <input type="text" id="search-input" placeholder="输入关键词搜索">
-            <button id="search-btn">搜索</button>
+            <input type="text" id="search-input" placeholder="输入关键词搜索（回车快捷触发）">
+            <button id="search-btn"><i class="fas fa-search"></i> 搜索</button>
         </div>
 
-        <!-- 导航分类1：常用网站 -->
-        <div class="nav-group">
-            <div class="nav-title">常用网站</div>
-            <div class="nav-list">
-                <div class="nav-item"><a href="https://www.baidu.com" target="_blank">百度</a></div>
-                <div class="nav-item"><a href="https://www.taobao.com" target="_blank">淘宝</a></div>
-                <div class="nav-item"><a href="https://www.jd.com" target="_blank">京东</a></div>
-                <div class="nav-item"><a href="https://mail.qq.com" target="_blank">QQ邮箱</a></div>
-                <div class="nav-item"><a href="https://www.bilibili.com" target="_blank">B站</a></div>
+        <!-- 导航容器 -->
+        <div class="nav-container">
+            <!-- 1. 搜索引擎（精准分类，补充必应、 DuckDuckGo） -->
+            <div class="nav-card">
+                <div class="nav-title"><i class="fas fa-search"></i>搜索引擎</div>
+                <div class="nav-list">
+                    <div class="nav-item"><a href="https://www.baidu.com" target="_blank">百度</a></div>
+                    <div class="nav-item"><a href="https://www.google.com" target="_blank">谷歌</a></div>
+                    <div class="nav-item"><a href="https://www.bing.com" target="_blank">必应</a></div>
+                    <div class="nav-item"><a href="https://duckduckgo.com" target="_blank">DuckDuckGo</a></div>
+                </div>
+            </div>
+
+            <!-- 2. 编程开发（细分工具，补充更多优质站点） -->
+            <div class="nav-card">
+                <div class="nav-title"><i class="fas fa-code"></i>编程开发</div>
+                <div class="nav-list">
+                    <div class="nav-item"><a href="https://github.com/" target="_blank">GitHub</a></div>
+                    <div class="nav-item"><a href="https://hub.docker.com/" target="_blank">Docker Hub</a></div>
+                    <div class="nav-item"><a href="https://spring.io/" target="_blank">Spring</a></div>
+                    <div class="nav-item"><a href="https://tomcat.apache.org/" target="_blank">Tomcat</a></div>
+                    <div class="nav-item"><a href="https://www.java.com/zh-CN/" target="_blank">Java</a></div>
+                    <div class="nav-item"><a href="https://www.python.org/" target="_blank">Python</a></div>
+                    <div class="nav-item"><a href="https://maven.apache.org/" target="_blank">Maven</a></div>
+                    <div class="nav-item"><a href="https://git-scm.com/" target="_blank">Git</a></div>
+                    <div class="nav-item"><a href="https://stackoverflow.com/" target="_blank">Stack Overflow</a></div>
+                    <div class="nav-item"><a href="https://npmjs.com/" target="_blank">NPM</a></div>
+                </div>
+            </div>
+
+            <!-- 3. AI工具（扩充主流平台，覆盖国内外） -->
+            <div class="nav-card">
+                <div class="nav-title"><i class="fas fa-robot"></i>AI工具</div>
+                <div class="nav-list">
+                    <div class="nav-item"><a href="https://chat.openai.com/" target="_blank">ChatGPT</a></div>
+                    <div class="nav-item"><a href="https://ai.baidu.com/" target="_blank">文心一言</a></div>
+                    <div class="nav-item"><a href="https://tongyi.aliyun.com/" target="_blank">通义千问</a></div>
+                    <div class="nav-item"><a href="https://www.deepmind.com/" target="_blank">DeepMind</a></div>
+                    <div class="nav-item"><a href="https://claude.ai/" target="_blank">Claude</a></div>
+                    <div class="nav-item"><a href="https://www.midjourney.com/" target="_blank">MidJourney</a></div>
+                </div>
+            </div>
+
+            <!-- 4. 操作系统（补充更多系统，直达下载） -->
+            <div class="nav-card">
+                <div class="nav-title"><i class="fas fa-desktop"></i>操作系统</div>
+                <div class="nav-list">
+                    <div class="nav-item"><a href="https://www.microsoft.com/zh-cn/software-download/windows11" target="_blank">Windows 11</a></div>
+                    <div class="nav-item"><a href="https://ubuntu.com/download/desktop" target="_blank">Ubuntu</a></div>
+                    <div class="nav-item"><a href="https://www.centos.org/download/" target="_blank">CentOS</a></div>
+                    <div class="nav-item"><a href="https://www.debian.org/distrib/" target="_blank">Debian</a></div>
+                    <div class="nav-item"><a href="https://www.archlinux.org/download/" target="_blank">Arch Linux</a></div>
+                    <div class="nav-item"><a href="https://www.apple.com/cn/macos/sonoma/" target="_blank">macOS</a></div>
+                </div>
+            </div>
+
+            <!-- 5. 新闻资讯（按类型细分，补充权威站点） -->
+            <div class="nav-card">
+                <div class="nav-title"><i class="fas fa-newspaper-alt"></i>新闻资讯</div>
+                <div class="nav-list">
+                    <div class="nav-item"><a href="https://news.qq.com/" target="_blank">腾讯新闻</a></div>
+                    <div class="nav-item"><a href="https://news.163.com/" target="_blank">网易新闻</a></div>
+                    <div class="nav-item"><a href="https://www.thepaper.cn/" target="_blank">澎湃新闻</a></div>
+                    <div class="nav-item"><a href="https://world.huanqiu.com/" target="_blank">环球网</a></div>
+                    <div class="nav-item"><a href="https://www.cnn.com/" target="_blank">CNN</a></div>
+                    <div class="nav-item"><a href="https://www.reuters.com/" target="_blank">路透社</a></div>
+                </div>
+            </div>
+
+            <!-- 6. 视频平台（细分国内外，补充优质站点） -->
+            <div class="nav-card">
+                <div class="nav-title"><i class="fas fa-video"></i>视频平台</div>
+                <div class="nav-list">
+                    <div class="nav-item"><a href="https://v.qq.com/" target="_blank">腾讯视频</a></div>
+                    <div class="nav-item"><a href="https://www.iqiyi.com/" target="_blank">爱奇艺</a></div>
+                    <div class="nav-item"><a href="https://www.youku.com/" target="_blank">优酷</a></div>
+                    <div class="nav-item"><a href="https://www.bilibili.com/" target="_blank">B站</a></div>
+                    <div class="nav-item"><a href="https://www.youtube.com/" target="_blank">YouTube</a></div>
+                    <div class="nav-item"><a href="https://www.netflix.com/" target="_blank">Netflix</a></div>
+                </div>
+            </div>
+
+            <!-- 7. 音乐音频（扩充平台，覆盖不同需求） -->
+            <div class="nav-card">
+                <div class="nav-title"><i class="fas fa-music"></i>音乐音频</div>
+                <div class="nav-list">
+                    <div class="nav-item"><a href="https://music.163.com/" target="_blank">网易云音乐</a></div>
+                    <div class="nav-item"><a href="https://y.qq.com/" target="_blank">QQ音乐</a></div>
+                    <div class="nav-item"><a href="https://www.kugou.com/" target="_blank">酷狗音乐</a></div>
+                    <div class="nav-item"><a href="https://www.xiami.com/" target="_blank">虾米音乐</a></div>
+                    <div class="nav-item"><a href="https://open.spotify.com/" target="_blank">Spotify</a></div>
+                    <div class="nav-item"><a href="https://www.ximalaya.com/" target="_blank">喜马拉雅</a></div>
+                </div>
+            </div>
+
+            <!-- 8. 电商购物（细分平台，补充常用站点） -->
+            <div class="nav-card">
+                <div class="nav-title"><i class="fas fa-shopping-cart"></i>电商购物</div>
+                <div class="nav-list">
+                    <div class="nav-item"><a href="https://www.taobao.com/" target="_blank">淘宝</a></div>
+                    <div class="nav-item"><a href="https://www.jd.com/" target="_blank">京东</a></div>
+                    <div class="nav-item"><a href="https://www.pinduoduo.com/" target="_blank">拼多多</a></div>
+                    <div class="nav-item"><a href="https://www.vip.com/" target="_blank">唯品会</a></div>
+                    <div class="nav-item"><a href="https://www.amazon.cn/" target="_blank">亚马逊</a></div>
+                    <div class="nav-item"><a href="https://www.suning.com/" target="_blank">苏宁易购</a></div>
+                </div>
+            </div>
+
+            <!-- 9. 办公工具（补充高效办公站点） -->
+            <div class="nav-card">
+                <div class="nav-title"><i class="fas fa-briefcase"></i>办公工具</div>
+                <div class="nav-list">
+                    <div class="nav-item"><a href="https://mail.qq.com/" target="_blank">QQ邮箱</a></div>
+                    <div class="nav-item"><a href="https://mail.163.com/" target="_blank">网易邮箱</a></div>
+                    <div class="nav-item"><a href="https://docs.google.com/" target="_blank">Google Docs</a></div>
+                    <div class="nav-item"><a href="https://www.wps.cn/" target="_blank">WPS</a></div>
+                    <div class="nav-item"><a href="https://tool.lu/" target="_blank">在线工具</a></div>
+                    <div class="nav-item"><a href="https://www.xmind.cn/" target="_blank">XMind</a></div>
+                </div>
+            </div>
+
+            <!-- 10. 社交沟通（补充主流社交平台） -->
+            <div class="nav-card">
+                <div class="nav-title"><i class="fas fa-users"></i>社交沟通</div>
+                <div class="nav-list">
+                    <div class="nav-item"><a href="https://weixin.qq.com/" target="_blank">微信网页版</a></div>
+                    <div class="nav-item"><a href="https://qzone.qq.com/" target="_blank">QQ空间</a></div>
+                    <div class="nav-item"><a href="https://weibo.com/" target="_blank">微博</a></div>
+                    <div class="nav-item"><a href="https://www.zhihu.com/" target="_blank">知乎</a></div>
+                    <div class="nav-item"><a href="https://www.facebook.com/" target="_blank">Facebook</a></div>
+                    <div class="nav-item"><a href="https://twitter.com/" target="_blank">Twitter</a></div>
+                </div>
+            </div>
+
+            <!-- 11. 学习教育（补充优质学习平台） -->
+            <div class="nav-card">
+                <div class="nav-title"><i class="fas fa-graduation-cap"></i>学习教育</div>
+                <div class="nav-list">
+                    <div class="nav-item"><a href="https://www.coursera.org/" target="_blank">Coursera</a></div>
+                    <div class="nav-item"><a href="https://www.udemy.com/" target="_blank">Udemy</a></div>
+                    <div class="nav-item"><a href="https://ke.qq.com/" target="_blank">腾讯课堂</a></div>
+                    <div class="nav-item"><a href="https://www.icourse163.org/" target="_blank">中国大学MOOC</a></div>
+                    <div class="nav-item"><a href="https://translate.google.cn/" target="_blank">谷歌翻译</a></div>
+                    <div class="nav-item"><a href="https://dict.youdao.com/" target="_blank">有道词典</a></div>
+                </div>
+            </div>
+
+            <!-- 12. 生活服务（补充常用生活站点） -->
+            <div class="nav-card">
+                <div class="nav-title"><i class="fas fa-home"></i>生活服务</div>
+                <div class="nav-list">
+                    <div class="nav-item"><a href="https://www.weather.com.cn/" target="_blank">天气预报</a></div>
+                    <div class="nav-item"><a href="https://map.baidu.com/" target="_blank">百度地图</a></div>
+                    <div class="nav-item"><a href="https://www.ctrip.com/" target="_blank">携程旅行</a></div>
+                    <div class="nav-item"><a href="https://www.meituan.com/" target="_blank">美团</a></div>
+                    <div class="nav-item"><a href="https://www.ele.me/" target="_blank">饿了么</a></div>
+                    <div class="nav-item"><a href="https://www.12306.cn/index/index.html" target="_blank">12306</a></div>
+                </div>
             </div>
         </div>
 
-        <!-- 导航分类2：工具网站 -->
-        <div class="nav-group">
-            <div class="nav-title">工具网站</div>
-            <div class="nav-list">
-                <div class="nav-item"><a href="https://tool.lu" target="_blank">在线工具</a></div>
-                <div class="nav-item"><a href="https://www.zhihu.com" target="_blank">知乎</a></div>
-                <div class="nav-item"><a href="https://translate.google.cn" target="_blank">谷歌翻译</a></div>
-                <div class="nav-item"><a href="https://www.weather.com.cn" target="_blank">天气预报</a></div>
-            </div>
+        <!-- 底部信息 -->
+        <div class="footer">
+            <p>全能导航页 &copy; 2024 | 高效便捷，一网打尽</p>
         </div>
-
-        <!-- 可自行添加更多分类 -->
     </div>
 
     <script>
-        // 搜索功能（默认跳转到百度搜索）
+        // 搜索功能（支持百度搜索，回车触发）
         const searchInput = document.getElementById('search-input');
         const searchBtn = document.getElementById('search-btn');
         
@@ -141,14 +382,23 @@
             const keyword = searchInput.value.trim();
             if (keyword) {
                 window.open(`https://www.baidu.com/s?wd=${encodeURIComponent(keyword)}`, '_blank');
+                searchInput.value = ''; // 清空输入框
             } else {
                 alert('请输入搜索关键词');
+                searchInput.focus(); // 聚焦输入框
             }
         }
 
+        // 点击搜索按钮触发
         searchBtn.addEventListener('click', search);
+        // 回车触发搜索
         searchInput.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') search();
+        });
+
+        // 页面加载完成后聚焦搜索框
+        window.addEventListener('load', () => {
+            searchInput.focus();
         });
     </script>
 </body>
