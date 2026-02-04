@@ -1,0 +1,50 @@
+# .github/workflows/generate-download-page.yml
+name: 自动生成下载页面
+on:
+  # 1. 推送到主分支时触发（main/master，根据你的仓库分支修改）
+  push:
+    branches: [ main ]
+    # 仅当download/doc/目录有文件变更时触发，减少不必要的运行
+    paths: [ 'download/doc/**' ]
+  # 2. 手动触发工作流（在GitHub Actions页面点击运行）
+  workflow_dispatch:
+  # 3. 定时触发（可选，每天凌晨3点更新，防止文件手动修改后未触发）
+  schedule:
+    - cron: '0 3 * * *'
+
+# 权限配置：允许Actions提交代码到仓库
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest # 使用Ubuntu虚拟机运行
+    steps:
+      # 步骤1：拉取仓库代码到虚拟机
+      - name: 拉取仓库代码
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # 拉取完整提交历史，方便提交
+
+      # 步骤2：设置Node.js环境（脚本基于Node.js运行）
+      - name: 设置Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20 # 长期支持版，稳定
+          cache: 'npm' # 缓存npm，加快速度（可选）
+
+      # 步骤3：运行脚本生成download.html
+      - name: 生成下载页面
+        run: node scripts/generate-download.js
+
+      # 步骤4：提交生成的文件到仓库
+      - name: 提交并推送修改
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          # 提交信息
+          commit_message: 'chore: 自动更新下载页面download.html'
+          # 仅提交指定文件，避免其他无关修改
+          file_pattern: download/download.html
+          # 提交者信息（使用GitHub Actions机器人）
+          commit_user_name: github-actions[bot]
+          commit_user_email: github-actions[bot]@users.noreply.github.com
