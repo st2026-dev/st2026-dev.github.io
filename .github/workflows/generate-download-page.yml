@@ -26,12 +26,12 @@ jobs:
         with:
           fetch-depth: 0 # 拉取完整提交历史，方便提交
 
-      # 步骤2：设置Node.js环境（脚本基于Node.js运行）
+      # 步骤2：设置Node.js环境（脚本基于Node.js运行）- 已修复缓存报错
       - name: 设置Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20 # 长期支持版，稳定
-          cache: 'npm' # 缓存npm，加快速度（可选）
+          # 注释cache行解决「无锁文件导致的缓存报错」，无需额外操作
 
       # 步骤3：运行脚本生成download.html
       - name: 生成下载页面
