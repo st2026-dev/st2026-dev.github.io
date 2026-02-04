@@ -11,6 +11,8 @@ const CONFIG = {
   outputHtml: path.join(__dirname, '../download/download.html'),
   // GitHub仓库的raw文件根路径（替换为你的仓库地址，格式：https://github.com/用户名/仓库名/raw/分支名）
   rawBaseUrl: 'https://github.com/st2026-dev/st2026-dev.github.io/raw/main',
+  // TXT文件专属的固定下载根域名（可直接在这里修改，无需改后续逻辑）
+  txtBaseUrl: 'https://st2026-dev.github.io/download/doc',
   // 页面标题
   pageTitle: '资源下载站 - 自动生成',
   // 忽略的文件/目录（正则，无需修改）
@@ -67,16 +69,30 @@ function generateHtml(files) {
   // 生成文件列表的HTML行
   const fileListHtml = files.length
     ? files
-        .map(
-          (file) => `
-        <tr>
-          <td>${file.name}</td>
-          <td>${file.size}</td>
-          <td>${file.mtime}</td>
-          <td><a href="${CONFIG.rawBaseUrl}/download/doc/${encodeURIComponent(file.relativePath)}" target="_blank" class="download-btn">立即下载</a></td>
-        </tr>
-      `
-        )
+        .map(file => {
+          // 判断是否为TXT文件（后缀名严格匹配.txt）
+          const isTxtFile = path.extname(file.name).toLowerCase() === '.txt';
+          let downloadLink = '';
+
+          if (isTxtFile) {
+            // TXT文件：固定域名链接 + 动态文件名 + download属性
+            const txtFileUrl = `${CONFIG.txtBaseUrl}/${encodeURIComponent(file.name)}`;
+            downloadLink = `<a href="${txtFileUrl}" class="download-btn" download="${file.name}">点击下载</a>`;
+          } else {
+            // 非TXT文件：保留原GitHub Raw逻辑
+            downloadLink = `<a href="${CONFIG.rawBaseUrl}/download/doc/${encodeURIComponent(file.relativePath)}" target="_blank" class="download-btn">立即下载</a>`;
+          }
+
+          // 拼接最终的tr行
+          return `
+            <tr>
+              <td>${file.name}</td>
+              <td>${file.size}</td>
+              <td>${file.mtime}</td>
+              <td>${downloadLink}</td>
+            </tr>
+          `;
+        })
         .join('')
     : '<tr><td colspan="4" class="empty">暂无下载文件</td></tr>';
 
